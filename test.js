@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Post = require('./database/models/Post')
 
-mongoose.connect('mongodb://127.0.0.1:27017/nodeapp-test-db', {
+mongoose.connect('mongodb://127.0.0.1:27017/nodeapp', {
     useNewUrlParser: true
 });
 
@@ -18,24 +18,25 @@ mongoose.connect('mongodb://127.0.0.1:27017/nodeapp-test-db', {
 //     console.log("find by id post")
 // })
 
-Post.findByIdAndUpdate("5c70e27201a3b679321dce66",{title: "my second post"},
-(e, post) => {
-    console.log(e, post)
-    console.log("updated post")
-})
+// Post.findByIdAndUpdate("5c70e27201a3b679321dce66",{title: "my second post"},
+// (e, post) => {
+//     console.log(e, post)
+//     console.log("updated post")
+// })
 
 
 
 
-// Post.create({
-//     title:'My fist Blog post',
-//     description:'My fist Blog post',
-//     content:'My fist Blog post 3',
-//     date: Date.now(),
+Post.create({
+    username:'Mostafa',
+    title:'Blog title',
+    description:'description fist Blog post',
+    content:'My fist Blog post 3',
+    date: Date.now(),
 
-// },  (e,post)  =>{
+},  (e,post)  =>{
 
-//     console.log(e,post)
+    console.log(e,post)
  
-// }) 
+}) 
 
