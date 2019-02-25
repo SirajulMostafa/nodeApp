@@ -10,6 +10,7 @@ const createPostcontroller = require('./controllers/createPost')
 const indexPageController = require('./controllers/indexPage')
 const aboutPageController = require('./controllers/aboutpage')
 const postStoreController = require('./controllers/postStore')
+const singlePostController = require('./controllers/singlePost')
 
 
 // Using Node.js `require()`
@@ -55,15 +56,9 @@ const validateCreatePostMiddleware = (req,res,next)=>{
 app.use('/posts/store',validateCreatePostMiddleware)
 app.use(customMiddleware)
 
-//route
+//route register here
 app.get('/',indexPageController)
-app.get('/post/:id',async (req,res)=>{
-
-    const post = await Post.findById(req.params.id)
-    res.render("post",{
-        post
-    })
-})
+app.get('/post/:id',singlePostController)
 
 
 app.get('/about',aboutPageController)
