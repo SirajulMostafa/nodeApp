@@ -63,20 +63,24 @@ app.get('/posts/new', (req, res) => {
     res.render('create')
 })
 app.post('/posts/store', (req, res) => {
-    // const {image} = req.files
-
-    // image.mv(path.resolve(__dirname,'publice/posts',image.name),(e)=>{
-    //     Post.create(req.body,(error,post)=>{
-    //     res.redirect('/')
-    //     })
+//    const {image} = req.files
+let image = req.files.afile
+   console.log( req.image)
+    image.mv(path.resolve(__dirname,'public/posts',image.name),(e)=>{
+        Post.create({
+            ...req.body,
+            img:`/posts/${image.name}`,
+        },(error,post)=>{
+        res.redirect('/')
+        })
     
-    // })
-
-    Post.create(req.body,(e,post)=>{
-       
-        console.log(e,req.body)
-        res.redirect("/")
     })
+
+    // Post.create(req.body,(e,post)=>{
+       
+    //     console.log(e,req.body)
+    //     res.redirect("/")
+    // })
 
    // console.log(req.body)
     //res.redirect('/')

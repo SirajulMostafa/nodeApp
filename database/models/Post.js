@@ -8,10 +8,12 @@ const BlogPostSchema = new Schema({
     title: String,
     description: String,
     content: String,
+    img:String,
     createAt:{
         type:Date,
         default: new Date()
     }
+
 })
 
 const Post = mongoose.model('Post',BlogPostSchema)

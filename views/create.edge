@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-           <form name="createNewPost" id="PostCreateForm"    action="/posts/store" method="POST">
+           <form name="createNewPost" id="PostCreateForm"    action="/posts/store" method="POST" encType="multipart/form-data">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Username</label>
@@ -35,6 +35,13 @@
             <div class="form-group floating-label-form-group controls">
               <label>Content</label>
               <input name="content" type="text" class="form-control" placeholder="Content" id="content" required data-validation-required-message="Please enter your name.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Content</label>
+              <input name="afile" type="file" class="form-control" placeholder="Content" id="content" required data-validation-required-message="Please enter your name.">
               <p class="help-block text-danger"></p>
             </div>
           </div>
