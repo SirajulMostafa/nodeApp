@@ -32,6 +32,22 @@ app.use(bodyParser.urlencoded({ extended: true}))
 app.use(fileUpload())
 
 
+const customMiddleware = (req,res,next)=>{
+    console.log('Custom middleware have been called')
+    next()//permissin for the next functionality
+}
+
+const validateCreatePostMiddleware = (req,res,next)=>{
+
+    if(!req.files.afile || !req.body.title || !req.body.content){
+        return res.redirect('/posts/new')
+    }
+    next()
+}
+
+app.use('/posts/store',validateCreatePostMiddleware)
+app.use(customMiddleware)
+
 //route
 app.get('/', async(req,res)  =>{
 
@@ -65,7 +81,7 @@ app.get('/posts/new', (req, res) => {
 app.post('/posts/store', (req, res) => {
 //    const {image} = req.files
 let image = req.files.afile
-   console.log( req.image)
+   //console.log( req.image)
     image.mv(path.resolve(__dirname,'public/posts',image.name),(e)=>{
         Post.create({
             ...req.body,
