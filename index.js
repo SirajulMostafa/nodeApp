@@ -1,16 +1,19 @@
 const express   =   require('express')
-const path      =   require('path')
+//const path      =   require('path')
 const expressEdge = require('express-edge')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 
-const Post = require('./database/models/Post')
+//const Post = require('./database/models/Post')
 // controller include section
 const createPostcontroller = require('./controllers/createPost')
 const indexPageController = require('./controllers/indexPage')
 const aboutPageController = require('./controllers/aboutpage')
 const postStoreController = require('./controllers/postStore')
 const singlePostController = require('./controllers/singlePost')
+// user controller
+const createProfileController = require('./controllers/user/createProfileController')
+const userPostController = require('./controllers/user/userPostController')
 
 
 // Using Node.js `require()`
@@ -23,10 +26,6 @@ const app       =   new express()
 mongoose.connect('mongodb://127.0.0.1:27017/nodeapp', {
     useNewUrlParser: true
 })
-
-// mongoose.connect('mongodb://127.0.0.1:27017/nodeapp-test-db', {
-//     useNewUrlParser: true
-// });
 
 // default  optional 
 // Automatically sets view engine and adds dot notation to app.render
@@ -59,23 +58,13 @@ app.use(customMiddleware)
 //route register here
 app.get('/',indexPageController)
 app.get('/post/:id',singlePostController)
-
-
 app.get('/about',aboutPageController)
-app.get('/post', (req, res) => {
-
-    res.render('post')
-})
-app.get('/contact', (req, res) => {
-    res.render('contact')
-})
 app.get('/posts/new',createPostcontroller)
-
 app.post('/posts/store',postStoreController)
-app.get('/profile', (req, res) => {
 
-    res.render('profile')
-})
+//user
+app.get('/users/register',createProfileController);
+app.post('/users/store',userPostController);
 
 // route end
 // port set 
