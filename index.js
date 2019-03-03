@@ -3,6 +3,8 @@ const express   =   require('express')
 const expressEdge = require('express-edge')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
+const flash = require('connect-flash');
+const expressSession = require('express-session');
 
 //const Post = require('./database/models/Post')
 // controller include section
@@ -14,6 +16,8 @@ const singlePostController = require('./controllers/singlePost')
 // user controller
 const createProfileController = require('./controllers/user/createProfileController')
 const userPostController = require('./controllers/user/userPostController')
+const userLoginPageController = require('./controllers/user/userLoginPageController')
+const userLoginController = require('./controllers/user/userLoginController')
 
 
 // Using Node.js `require()`
@@ -21,10 +25,19 @@ const mongoose = require('mongoose');
 
 const app       =   new express()
 
+app.use(expressSession({
+    secret: 'cookie_secret',
+  //  name: 'cookie_name',
+  //  store: 'sessionStore', // connect-mongo session store
+  ///  proxy: true,
+    resave: true,
+    saveUninitialized: true
+}))
 // mongoose connection 
 
 mongoose.connect('mongodb://127.0.0.1:27017/nodeapp', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true
 })
 
 // default  optional 
@@ -65,6 +78,8 @@ app.post('/posts/store',postStoreController)
 //user
 app.get('/users/register',createProfileController);
 app.post('/users/store',userPostController);
+app.get('/users/login',userLoginPageController);
+app.post('/users/login-check',userLoginController);
 
 // route end
 // port set 

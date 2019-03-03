@@ -1,0 +1,38 @@
+@layout('layouts.app')
+
+
+@section('content')
+  
+<h1 class="col-md-">Login here</h1>
+
+<!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+           <form name="createNewPost" id="user login"    action="/users/login-check" method="POST" >
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                  <label>Email</label>
+                  <input name="email" type="email" class="form-control" placeholder="Email" id="email" data-validation-required-message="Please enter your name.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>password</label>
+              <input name="password" type="password" class="form-control" placeholder="password" id="password" >
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          
+          <br>
+          <div id="success"></div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="s">Create New Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+@endsection

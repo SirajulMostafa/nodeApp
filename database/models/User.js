@@ -1,14 +1,27 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
 const UserPostShcema = new Schema({
-    username: String,
-    email: String,
-    password: String,
-    repassword: String,
-    img:String,
+    username:{
+        type:String,
+        required:[ true, 'please provide you username'],
+        unique:true
+
+    },
+    email: {
+        type:String,
+        required:[ true, 'please provide you email'],
+        unique:true
+
+    },
+    password:{
+        type:String,
+        required:[ true, 'please provide you password'],
+
+    },
+    repassword:String,
     createdAt:{
         type:Date,
         default: new Date()
