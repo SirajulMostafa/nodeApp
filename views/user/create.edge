@@ -9,18 +9,29 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
+        @if(errors.length > 0)
+       
+        <ul class="list-group">
+            @each(error in errors)
+          <li class="list-group-item text-danger">{{error}}</li>
+         
+          @endeach
+        </ul>
+       
+        @endif
+        {{--  {{data}}  --}}
            <form name="createNewPost" id="PostCreateForm"    action="/users/store" method="POST" encType="multipart/form-data">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Username</label>
-              <input name="username" type="text" class="form-control" placeholder="Username" id="Username"  data-validation-required-message="Please enter your name.">
+              <input value = "{{ data.username || ''}}" name="username" type="text" class="form-control" placeholder="Username" id="Username"  data-validation-required-message="Please enter your name.">
               <p class="help-block text-danger"></p>
             </div>
           </div>
             <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Email</label>
-              <input name="email" type="email" class="form-control" placeholder="Email" id="email" data-validation-required-message="Please enter your name.">
+              <input value="{{ data.email || ''}}" name="email" type="email" class="form-control" placeholder="Email" id="email" data-validation-required-message="Please enter your name.">
               <p class="help-block text-danger"></p>
             </div>
           </div>

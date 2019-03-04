@@ -3,10 +3,13 @@ const express   =   require('express')
 const expressEdge = require('express-edge')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
-const flash = require('connect-flash');
+const connectFlash = require('connect-flash');
 const expressSession = require('express-session');
-
-//const Post = require('./database/models/Post')
+const connectMongo = require('connect-mongo');//need for store session //otherwise when server restart session will deleted
+// middleware
+const auth =  require('./middleware/auth')//use it ass controller or direct use inside the router
+const postStoreM =  require('./middleware/createPostMiddleware')
+const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 // controller include section
 const createPostcontroller = require('./controllers/createPost')
 const indexPageController = require('./controllers/indexPage')
@@ -18,12 +21,17 @@ const createProfileController = require('./controllers/user/createProfileControl
 const userPostController = require('./controllers/user/userPostController')
 const userLoginPageController = require('./controllers/user/userLoginPageController')
 const userLoginController = require('./controllers/user/userLoginController')
-
-
 // Using Node.js `require()`
 const mongoose = require('mongoose');
 
 const app       =   new express()
+
+const mongoStore = connectMongo(expressSession)
+
+mongoose.connect('mongodb://127.0.0.1:27017/nodeapp', {
+    useNewUrlParser: true,
+    useCreateIndex: true
+})
 
 app.use(expressSession({
     secret: 'cookie_secret',
@@ -31,18 +39,13 @@ app.use(expressSession({
   //  store: 'sessionStore', // connect-mongo session store
   ///  proxy: true,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
+    })
 }))
 // mongoose connection 
-
-mongoose.connect('mongodb://127.0.0.1:27017/nodeapp', {
-    useNewUrlParser: true,
-    useCreateIndex: true
-})
-
-// default  optional 
-// Automatically sets view engine and adds dot notation to app.render
-//use the middleware with express register with express
+app.use(connectFlash())
 app.use(expressEdge)
 app.set('views', `${__dirname}/views`);
 
@@ -57,28 +60,31 @@ const customMiddleware = (req,res,next)=>{
     next()//permissin for the next functionality
 }
 
-const validateCreatePostMiddleware = (req,res,next)=>{
+// const validateCreatePostMiddleware = (req,res,next)=>{
 
-    if(!req.files.afile || !req.body.title || !req.body.content){
-        return res.redirect('/posts/new')
-    }
-    next()
-}
+//     if(!req.files.afile || !req.body.title || !req.body.content){
+//         return res.redirect('/posts/new')
+//     }
+//     next()
+// }
 
-app.use('/posts/store',validateCreatePostMiddleware)
+//app.use('/posts/store',validateCreatePostMiddleware)
+// app.use('/posts/new',auth)// it's work but we use it direct to the route
+
+
 app.use(customMiddleware)
 
 //route register here
 app.get('/',indexPageController)
 app.get('/post/:id',singlePostController)
 app.get('/about',aboutPageController)
-app.get('/posts/new',createPostcontroller)
-app.post('/posts/store',postStoreController)
+app.get('/posts/new',auth,createPostcontroller)
+app.post('/posts/store',auth,postStoreM,postStoreController)
 
 //user
-app.get('/users/register',createProfileController);
+app.get('/users/register',redirectIfAuthenticated,createProfileController);
 app.post('/users/store',userPostController);
-app.get('/users/login',userLoginPageController);
+app.get('/users/login',redirectIfAuthenticated,userLoginPageController);
 app.post('/users/login-check',userLoginController);
 
 // route end
