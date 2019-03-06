@@ -13,6 +13,7 @@ module.exports =
             Post.create({
                 ...req.body,
                 img:`/posts/${image.name}`,
+                user_id: req.session.userId
             },(error,post)=>{
             res.redirect('/')
             })
