@@ -44,15 +44,22 @@
           <li class="nav-item">
             <a class="nav-link" href="/post">Sample Post</a>
           </li>
+          @if(!auth)
           <li class="nav-item">
             <a class="nav-link" href="/users/register">Register</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/users/login">Login</a>
           </li>
+          @else
           <li class="nav-item">
             <a class="nav-link" href="/posts/new">Create new post</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/logout">Log out</a>
+          </li>
+          @endif
+          
         </ul>
       </div>
     </div>

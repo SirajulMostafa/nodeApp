@@ -1,6 +1,7 @@
 const express   =   require('express')
 //const path      =   require('path')
 const expressEdge = require('express-edge')
+const edgeJS = require('edge.js')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const connectFlash = require('connect-flash');
@@ -10,6 +11,7 @@ const connectMongo = require('connect-mongo');//need for store session //otherwi
 const auth =  require('./middleware/auth')//use it ass controller or direct use inside the router
 const postStoreM =  require('./middleware/createPostMiddleware')
 const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
+const redirectIfNotAuthenticated = require('./middleware/redirectIfNotAuthenticated')
 // controller include section
 const createPostcontroller = require('./controllers/createPost')
 const indexPageController = require('./controllers/indexPage')
@@ -21,6 +23,7 @@ const createProfileController = require('./controllers/user/createProfileControl
 const userPostController = require('./controllers/user/userPostController')
 const userLoginPageController = require('./controllers/user/userLoginPageController')
 const userLoginController = require('./controllers/user/userLoginController')
+const userLoginOutController = require('./controllers/user/userLogoutController')
 // Using Node.js `require()`
 const mongoose = require('mongoose');
 
@@ -54,6 +57,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true}))
 app.use(fileUpload())
 
+app.use('*', (req,res,next)=>{
+    edgeJS.global('auth',req.session.userId)// set global variable to use all of the request & named auth and we store session userid
+
+    next()
+})
+
 
 const customMiddleware = (req,res,next)=>{
     console.log('Custom middleware have been called')
@@ -86,6 +95,8 @@ app.get('/users/register',redirectIfAuthenticated,createProfileController);
 app.post('/users/store',userPostController);
 app.get('/users/login',redirectIfAuthenticated,userLoginPageController);
 app.post('/users/login-check',userLoginController);
+//app.get('/auth/logout',redirectIfAuthenticated,userLoginOutController);
+app.get('/auth/logout',redirectIfNotAuthenticated,userLoginOutController);
 
 // route end
 // port set 
