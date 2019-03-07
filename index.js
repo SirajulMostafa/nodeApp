@@ -18,6 +18,8 @@ const indexPageController = require('./controllers/indexPage')
 const aboutPageController = require('./controllers/aboutpage')
 const postStoreController = require('./controllers/postStore')
 const singlePostController = require('./controllers/singlePost')
+const postUpdatePageController = require('./controllers/postUpdatePage')
+const postUpdateController = require('./controllers/postUpdate')
 // user controller
 const createProfileController = require('./controllers/user/createProfileController')
 const userPostController = require('./controllers/user/userPostController')
@@ -89,6 +91,8 @@ app.get('/post/:id',singlePostController)
 app.get('/about',aboutPageController)
 app.get('/posts/new',auth,createPostcontroller)
 app.post('/posts/store',auth,postStoreM,postStoreController)
+app.get('/update/:id',auth,postUpdatePageController)
+app.post('/post/update/:id',auth,postUpdateController)
 
 //user
 app.get('/users/register',redirectIfAuthenticated,createProfileController);
