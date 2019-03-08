@@ -3,25 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^2.0.3",
     "express": "^4.16.4",
     "express-edge": "^1.0.0",
-    "express-fileupload": "^1.1.1-alpha.3",
+    "express-fileupload": "^1.1.2-alpha.1",
     "express-session": "^1.15.6",
     "json-parser": "^1.1.5",
-    "mongodb": "^3.1.13",
-    "mongoose": "^5.4.14"
+    "mongoose": "^5.4.17"
   },
-  "devDependencies": {
-    "nodemon": "^1.18.10"
-  }
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirajulMostafa/nodeApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SirajulMostafa/nodeApp/issues"
+  },
+  "homepage": "https://github.com/SirajulMostafa/nodeApp#readme"
 }
